@@ -14,4 +14,5 @@ import java.util.List;
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     Page<Employee> findByFirstName(String firstName, Pageable pageable);
     List<Employee> findByAddressesCity(@Param("city") String city);
+    Employee findByEmpId(Long empid);
 }

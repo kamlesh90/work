@@ -7,6 +7,7 @@ import com.cog.erms.model.Employee;
 import com.cog.erms.repo.EmployeeRepository;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -36,13 +37,21 @@ public class EmployeeService {
         return semployee;
     }
     public Employee update(Employee employee){
-        Employee updatedEmployee=null;
+        Employee returnedEmployee=null;
         if(employeeRepository.existsById(employee.getEmpId())){
-            updatedEmployee=save(employee);
+            Employee updatedEmployee = employeeRepository.findByEmpId(employee.getEmpId());
+            updatedEmployee.setEmpId(employee.getEmpId());
+            updatedEmployee.setFirstName(employee.getFirstName());
+            updatedEmployee.setLastName(employee.getLastName());
+            updatedEmployee.setMiddleName(employee.getMiddleName());
+            updatedEmployee.setAddresses(employee.getAddresses());
+            updatedEmployee.setDesignations(employee.getDesignations());
+             returnedEmployee=save(updatedEmployee);
+
         }else{
             throw new EmployeeNotFoundException("Employee Not Exist with ID "+employee.getEmpId());
         }
-        return updatedEmployee;
+        return returnedEmployee;
     }
     @Cacheable("EmpFnameCache")
     public List<Employee> getByFirstName(String fname,Integer pageNumber, Integer pageSize){

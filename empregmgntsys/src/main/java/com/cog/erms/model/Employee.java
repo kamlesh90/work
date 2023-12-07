@@ -25,7 +25,7 @@ public class Employee {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "EMP_ID_FK")
     private List<Address> addresses;
-    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "Emp_ID_FK")
     private List<Designation> designations;
 }
