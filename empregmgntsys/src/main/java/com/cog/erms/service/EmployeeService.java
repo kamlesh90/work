@@ -38,18 +38,23 @@ public class EmployeeService {
         return semployee;
     }
     public Employee update(Employee employee, Long employeeId){
-        Employee returnedEmployee=null;
             Optional<Employee> updatedEmployeeOpt = employeeRepository.findById(employeeId);
+            Employee updatedEmployee = null;
             if(updatedEmployeeOpt.isPresent()){
-                returnedEmployee = updatedEmployeeOpt.get();
+                Employee returnedEmployee = updatedEmployeeOpt.get();
 
                 returnedEmployee.setFirstName(employee.getFirstName());
                 returnedEmployee.setLastName(employee.getLastName());
                 returnedEmployee.setMiddleName(employee.getMiddleName());
                 returnedEmployee.setAddresses(employee.getAddresses());
                 returnedEmployee.setDesignations(employee.getDesignations());
+
+                updatedEmployee  = save(returnedEmployee);
             }
-            return returnedEmployee = save(returnedEmployee);
+            else {
+                throw new EmployeeNotFoundException("employee not exist with ID : "+employeeId);
+            }
+            return updatedEmployee;
     }
     public Employee updateEmployeeByLastName(String lname,Long employeeId){
         Employee updatedEmpByLName=null;
@@ -96,3 +101,4 @@ public class EmployeeService {
     }
 
 }
+

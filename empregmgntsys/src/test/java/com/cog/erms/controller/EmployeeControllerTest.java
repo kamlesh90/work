@@ -89,4 +89,17 @@ class EmployeeControllerTest {
         Assertions.assertEquals(3,responseEntity.getBody().size());
         Assertions.assertEquals(HttpStatus.OK.value(),responseEntity.getStatusCode().value());
     }
+    @Test
+    @DisplayName("success scenario test is for to update the employee by last name")
+    void updateEmployeeByLastName(){
+        Employee employee = new Employee();
+        employee.setFirstName("test-employee");
+
+        Mockito.when(employeeService.updateEmployeeByLastName(Mockito.anyString(),Mockito.anyLong())).thenReturn(employee);
+
+        ResponseEntity<Employee> responseEntity = employeeController.updateEmployeeByLastName("dummy last name", 1L);
+
+        Assertions.assertEquals(employee.getLastName(),responseEntity.getBody().getLastName());
+        Assertions.assertEquals(HttpStatus.OK.value(),responseEntity.getStatusCode().value());
+    }
 }
